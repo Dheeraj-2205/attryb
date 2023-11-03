@@ -86,7 +86,6 @@ exports.updateProducts = async(req,res)=>{
 exports.deleteProducts = async(req,res) =>{
     try {
         const product = await oemSpecs.findById(req.params.id);
-        console.log(product)
 
         if (!product) {
           return res.status(400).json({
