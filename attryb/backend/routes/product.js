@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.route("/newoem").post(isAuthenticated, authorizeRoles("admin"),createProduct)
 router.route("/alloem").get(getAllProducts)
-router.route("/admin/getall").get(isAuthenticated,adminGetAllProducts)
-router.route("/admin/:id").put(isAuthenticated,updateProducts).delete(isAuthenticated,deleteProducts);
+router.route("/admin/getall").get(isAuthenticated,authorizeRoles("admin"),adminGetAllProducts)
+router.route("/admin/:id").put(isAuthenticated,authorizeRoles("admin"),updateProducts).delete(isAuthenticated,authorizeRoles("admin"),deleteProducts);
 
 
 module.exports = router

@@ -1,5 +1,5 @@
 const oemSpecs = require('../models/OEM_Specs');
-
+const ApiFeature = require('../utils/apiFeature.js');
 exports.createProduct = async(req,res) =>{
     try {
 
@@ -21,11 +21,16 @@ exports.createProduct = async(req,res) =>{
 
 exports.getAllProducts = async(req,res)=>{
     try {
-        const products = await oemSpecs.find();
+        const OemCount = await oemSpecs.countDocuments();
 
+        const apiFeature = new ApiFeature(oemSpecs.find() , req.query)
+            .search();
+        
+        let products = await apiFeature.query;
         return res.status(200).json({
             success : true,
-            products
+            products,
+            OemCount
         })
     } catch (error) {
         return res.status(500).json({
@@ -38,10 +43,12 @@ exports.getAllProducts = async(req,res)=>{
 exports.adminGetAllProducts = async(req,res)=>{
     try {
         const products = await oemSpecs.find();
+        const OemCount = await oemSpecs.countDocuments();
 
         return res.status(200).json({
             success : true,
-            products
+            products,
+            OemCount
         })
     } catch (error) {
         return res.status(500).json({
