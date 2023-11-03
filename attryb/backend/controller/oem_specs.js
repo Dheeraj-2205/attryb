@@ -35,3 +35,32 @@ exports.getAllProducts = async(req,res)=>{
         })
     }
 }
+
+
+exports.updateProducts = async(req,res)=>{
+    try {
+        let product = await oemSpecs.findById(req.params.id);
+
+        if(!product){
+            return res.status(400).json({
+                success : false,
+                message : "Product Not Found"
+            })
+        };
+    
+        product = await product.findByIdAndUpdate (req.params.id ,req.body, {
+            new : true,
+            useFindAndModify : false
+        });
+    
+        return res.status(200).json({
+            success : true,
+            product
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success : false,
+            error : error.message
+        })
+    }
+}
