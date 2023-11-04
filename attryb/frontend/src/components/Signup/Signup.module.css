@@ -1,10 +1,4 @@
 .container{
-    
-
-    
-}
-
-.container > form{
     height: 100vh;
     width: 100vw;
     max-width: 100%;
@@ -12,5 +6,38 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: red;
+    
+}
+.container > form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container > form > label{
+    align-self: flex-start;
+    font-size: larger;
+    margin-top: 3%;
+}
+.container > form input{
+    width: 30vw;
+    height: 2vmin;
+    padding: 3vmin;
+    box-sizing: border-box;
+    margin-top: 4%;
+    
+}
+.container > form > input:last-child{
+    background-color: rgb(99, 112, 180);
+    font-size: larger;
+    text-align: center;
+    padding-bottom: 2vmax;
+    cursor: pointer;
+    border: 0cap;
+
+}
+.container > form > input:last-child:hover{
+    background-color: rgb(28, 28, 222);
 }

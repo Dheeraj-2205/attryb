@@ -29,7 +29,6 @@ const Signup = () => {
         email: state.email,
         password: state.password,
       };
-      console.log(userData)
 
       const res = await fetch(`http://localhost:8000/api/v1/register`,{
         method : 'POST',
@@ -48,6 +47,7 @@ const Signup = () => {
 
   return (
     <div className={style.container}>
+        <h1>SignUp</h1>
       <form onSubmit={handleSubmit}>
         <label> Name</label>
         <input
