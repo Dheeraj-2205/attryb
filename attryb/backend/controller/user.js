@@ -1,3 +1,4 @@
+const { json } = require('express');
 const User = require('../models/User.js');
 
 exports.registerUser = async(req,res)=>{
@@ -23,6 +24,7 @@ exports.registerUser = async(req,res)=>{
             expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
             httpOnly: true
         }
+
     
         res.status(201).cookie("token", token , options).json({
             success : true,
@@ -70,10 +72,15 @@ exports.login = async(req,res)=>{
         }
 
         const token = await user.generateToken();
+
+        console.log(token)
+
+        // localStorage.setItem("token", token);
     
         const options = {
             expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
-            httpOnly: true
+            httpOnly: true,
+            sameSite: 'strict'
         }
     
         res.status(200).cookie("token", token , options).json({

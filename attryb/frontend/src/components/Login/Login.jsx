@@ -38,7 +38,8 @@ const Login = () => {
         body: JSON.stringify(userData),
       });
       const data = await res.json();
-      console.log(data, "line40");
+      localStorage.setItem("role" , data.user.role);
+      localStorage.setItem("token" , data.token);
       if (data?.success === true) {
         navigate("/oemspecs")
         console.log("Retrieve Data go to next page");

@@ -4,7 +4,7 @@ const User = require("../models/User");
 exports.isAuthenticated = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-
+    console.log(req.cookies.token)
     if (!token) {
       return res.status(404).json({
         success: false,

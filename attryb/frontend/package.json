@@ -12,6 +12,7 @@
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
+    "start": "^5.1.0",
     "web-vitals": "^2.1.4",
     "webfontloader": "^1.6.28"
   },
@@ -38,6 +39,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:8000/"
+  }
 }
