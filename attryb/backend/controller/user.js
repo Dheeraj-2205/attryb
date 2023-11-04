@@ -51,7 +51,6 @@ exports.login = async(req,res)=>{
         // }
 
         const user =  await User.findOne({email}).select("+password")
-        console.log(user)
 
         if(!user){
             return res.status(400).json({
@@ -61,6 +60,7 @@ exports.login = async(req,res)=>{
         }
 
         const isMatch = await user.matchPassword;
+        console.log( "64" + isMatch );
 
         if (!isMatch) {
             return res.status(400).json({

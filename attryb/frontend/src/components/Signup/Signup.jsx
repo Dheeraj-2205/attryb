@@ -1,10 +1,15 @@
-import React from "react";
-import style from "./Signup.module.css"
+import React, { useContext, useEffect } from "react";
+import style from "./Signup.module.css";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 // import { Link } from "react-router-dom";
-import env from "react-dotenv"
+import { LoginContext } from "../context/LoginContextProvider";
 
 const Signup = () => {
+  const { checkingError, setCheckingError } = useContext(LoginContext);
+
+  const notify = () => toast("You Have To SignUp First");
+
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -30,24 +35,33 @@ const Signup = () => {
         password: state.password,
       };
 
-      const res = await fetch(`http://localhost:8000/api/v1/register`,{
-        method : 'POST',
-        headers : {
-            "Content-Type" : "application/json"
+      const res = await fetch(`http://localhost:8000/api/v1/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body : JSON.stringify(userData)
-      })
-      
+        body: JSON.stringify(userData),
+      });
+
       const data = await res.json();
       console.log(data);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
 
+  useEffect(() => {
+    console.log(checkingError, "checkingError");
+    if (checkingError) {
+      notify();
+      setCheckingError(false);
+    }
+  }, [checkingError]);
+
   return (
     <div className={style.container}>
-        <h1>SignUp</h1>
+      <Toaster />
+      <h1>SignUp</h1>
       <form onSubmit={handleSubmit}>
         <label> Name</label>
         <input

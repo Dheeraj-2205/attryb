@@ -1,9 +1,10 @@
 
 import './App.css';
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { Routes, Route} from "react-router-dom"
 import Signup from './components/Signup/Signup';
 import webfont from "webfontloader"
 import Login from './components/Login/Login';
+import AlloemSpecs from './components/oem_specs/AlloemSpecs';
 
 function App() {
   webfont.load({
@@ -13,12 +14,12 @@ function App() {
   })
   return (
     <div className="App">
-      <BrowserRouter>
+      
       <Routes>
         <Route path = "/signup" element={<Signup/>}/>
         <Route path='/login' element = {<Login/>} />
+        <Route path="/oemspecs" element = {<AlloemSpecs/>}/>
       </Routes>
-      </BrowserRouter>
     </div>
   );
 }

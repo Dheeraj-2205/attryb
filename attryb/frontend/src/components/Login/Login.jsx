@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import style from "./Login.module.css";
-import Loader from "../layout/Loader";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../context/LoginContextProvider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setCheckingError } = useContext(LoginContext);
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -39,9 +40,10 @@ const Login = () => {
       const data = await res.json();
       console.log(data, "line40");
       if (data?.success === true) {
-        // navigate("/")
+        navigate("/oemspecs")
         console.log("Retrieve Data go to next page");
       } else {
+        setCheckingError(true);
         navigate("/signup");
       }
     } catch (error) {
