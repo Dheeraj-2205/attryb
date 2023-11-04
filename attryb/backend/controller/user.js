@@ -41,13 +41,32 @@ exports.registerUser = async(req,res)=>{
 
 exports.login = async(req,res)=>{
     try {
-        const { email ,password } = req.body;
-        const user = await User.findOne({email, password})
+        const { email ,password } = req.body;    
+
+        // if (!email || !password) {
+        //     return res.status(400).json({
+        //         success : false,
+        //         message : "Please Enter Your Email"
+        //     })
+        // }
+
+        const user =  await User.findOne({email}).select("+password")
+        console.log(user)
+
         if(!user){
             return res.status(400).json({
                 success : false,
                 message : "User does not exists"
             })
+        }
+
+        const isMatch = await user.matchPassword;
+
+        if (!isMatch) {
+            return res.status(400).json({
+              success: false,
+              message: "Incorrect password",
+            });
         }
 
         const token = await user.generateToken();
@@ -88,3 +107,4 @@ exports.logout = async(req,res) =>{
         })
     }
 }
+
