@@ -18,26 +18,23 @@
 
 .container > form > label{
     align-self: flex-start;
-    font-size: larger;
-    margin-top: 3%;
+    font-size: medium;
+    margin-top: 0.5%;
 }
 .container > form input{
     width: 30vw;
-    height: 2vmin;
+    height: 1.5vmin;
     padding: 3vmin;
     box-sizing: border-box;
-    margin-top: 4%;
+    margin-top: 3%;
     
 }
-.container > form > input:last-child{
-    background-color: rgb(99, 112, 180);
-    font-size: larger;
-    text-align: center;
-    padding-bottom: 2vmax;
-    cursor: pointer;
-    border: 0cap;
+.container > form > button ,a:last-child{
+    /* background-color: rgb(99, 112, 180); */
+    /* width: 30vw; */
+    /* margin-top: 5%; */
+    height: 5vmax;
+    border: 0;
+    border-radius: 3%;
+}
 
-}
-.container > form > input:last-child:hover{
-    background-color: rgb(28, 28, 222);
-}

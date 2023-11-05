@@ -30,7 +30,7 @@
     
 }
 .container > form > a >input:last-child{
-    background-color: rgb(99, 112, 180);
+    /* background-color: rgb(99, 112, 180); */
     font-size: larger;
     text-align: center;
     padding-bottom: 2vmax;

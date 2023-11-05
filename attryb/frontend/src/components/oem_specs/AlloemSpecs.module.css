@@ -2,12 +2,17 @@
 .search{
 
     margin-top: 1%;
-    width: 100%;
+    width: 60%;
+    position: relative;
+    left: 40%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 
 }
-
+.search > a >button{
+    height: 6vh;
+    width: 10vw;
+}
 .search > input{
     width: 30%;
     height: 5vh;
@@ -36,4 +41,12 @@
     padding: 0.3vmin;
     text-align: center;
     height: 3.5vmin;
+}
+
+.adminUpdate{
+    width: 40%;
+    height: 4vh;
+    justify-self: center;
+    margin-left: 5%;
+    color: black;
 }

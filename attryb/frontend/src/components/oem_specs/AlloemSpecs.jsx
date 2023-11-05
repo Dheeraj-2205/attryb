@@ -1,12 +1,11 @@
 import React from "react";
 import style from "./AlloemSpecs.module.css";
 import { useState, useEffect } from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 const AlloemSpecs = () => {
   const [productData, setProductData] = useState({});
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState("");
-
   const [filteredData, setFilteredData] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const retrieveToken = localStorage.getItem("token");
@@ -38,25 +37,36 @@ const AlloemSpecs = () => {
     setFilteredData(filterData);
   };
 
-
   // delete Part
 
-  const deleteTheData = async(id) =>{
-    console.log(id)
-    await fetch(`http://localhost:8000/api/v1/admin/${id}`,{
-      method : "DELETE",
+  const deleteTheData = async (id) => {
+    console.log(id);
+    await fetch(`http://localhost:8000/api/v1/admin/${id}`, {
+      method: "DELETE",
       headers: {
-        'Authorization': `Bearer ${retrieveToken}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${retrieveToken}`,
+        "Content-Type": "application/json",
       },
     });
+  };
+
+  const  logoutUser = async() =>{
+    const res = await fetch(`http://localhost:8000/api/v1/logout`,{
+      method : "GET",
+      headers : {
+        "Content-Type" : "application/json"
+      }
+    });
+    const data = await res.json();
+    
   }
+
 
   useEffect(() => {
     getData();
   });
 
-  const localData =localStorage.getItem("role");
+  const localData = localStorage.getItem("role");
 
   return (
     <>
@@ -67,6 +77,14 @@ const AlloemSpecs = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        {localData === "admin" ? (
+          
+            <Link to="/create"><button>Create</button></Link>
+          
+        ) : (
+          ""
+        )}
+        <Link to = "/login"><button onClick={logoutUser}>Logout</button></Link>
         {/* <button onClick={handleSearch}>Search</button> */}
       </div>
       <div>
@@ -94,12 +112,20 @@ const AlloemSpecs = () => {
                   <p>Mileage :- {ele.mileage}</p>
                   <p>Price :- {ele.price}</p>
                   <p>Year :- {ele.year}</p>
-                  {
-                    localData === "admin" ? <button><Link to = {`/update/${ele._id}`}>Edit</Link></button> : ""
-                  }
-                  {
-                    localData === "admin" ? <button onClick={deleteTheData.bind(null,ele._id)}>Delete</button> : ""
-                  }
+                  {localData === "admin" ? (
+                    <button className={style.adminUpdate}>
+                      <Link to={`/update/${ele._id}`}>Edit</Link>
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  {localData === "admin" ? (
+                    <button className={style.adminUpdate} onClick={deleteTheData.bind(null, ele._id)}>
+                      Delete
+                    </button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               );
             })}

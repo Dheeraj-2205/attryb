@@ -12,7 +12,7 @@ exports.createProduct = async(req,res) =>{
     } catch (error) {
 
         return res.status(500).json({
-            success : true,
+            success : false,
             error : error.message
         })
 
@@ -97,7 +97,7 @@ exports.deleteProducts = async(req,res) =>{
         console.log(product)
         if (!product) {
           return res.status(400).json({
-            success : true,
+            success : false,
             error : "Product Is Not Found"
           })
         }

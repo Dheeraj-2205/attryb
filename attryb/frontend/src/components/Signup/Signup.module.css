@@ -30,12 +30,13 @@
     
 }
 .container > form > input:last-child{
-    background-color: rgb(99, 112, 180);
+    /* background-color: rgb(99, 112, 180); */
     font-size: larger;
     text-align: center;
     padding-bottom: 2vmax;
     cursor: pointer;
     border: 0cap;
+    color: wheat;
 
 }
 .container > form > input:last-child:hover{
