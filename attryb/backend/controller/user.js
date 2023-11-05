@@ -41,62 +41,110 @@ exports.registerUser = async(req,res)=>{
 
 }
 
-exports.login = async(req,res)=>{
-    try {
-        const { email ,password } = req.body;    
+// exports.login = async(req,res)=>{
+//     try {
+//         const { email ,password } = req.body;    
 
-        // if (!email || !password) {
-        //     return res.status(400).json({
-        //         success : false,
-        //         message : "Please Enter Your Email"
-        //     })
-        // }
+//         // if (!email || !password) {
+//         //     return res.status(400).json({
+//         //         success : false,
+//         //         message : "Please Enter Your Email"
+//         //     })
+//         // }
 
-        const user =  await User.findOne({email}).select("+password")
+//         const user =  await User.findOne({email}).select("+password")
 
-        if(!user){
-            return res.status(400).json({
-                success : false,
-                message : "User does not exists"
-            })
-        }
+//         if(!user){
+//             return res.status(400).json({
+//                 success : false,
+//                 message : "User does not exists"
+//             })
+//         }
 
-        const isMatch = await user.matchPassword;
-        console.log( "64" + isMatch );
+//         const isMatch = await user.matchPassword;
+//         console.log( "64" + isMatch );
 
-        if (!isMatch) {
-            return res.status(400).json({
-              success: false,
-              message: "Incorrect password",
-            });
-        }
+//         if (!isMatch) {
+//             return res.status(400).json({
+//               success: false,
+//               message: "Incorrect password",
+//             });
+//         }
 
-        const token = await user.generateToken();
+//         const token = await user.generateToken();
 
-        console.log(token)
+//         console.log(token)
 
-        // localStorage.setItem("token", token);
+//         // localStorage.setItem("token", token);
     
-        const options = {
-            expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
-            httpOnly: true,
-            sameSite: 'strict'
-        }
+//         const options = {
+//             expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
+//             httpOnly: true,
+//             sameSite: 'strict'
+//         }
     
-        res.status(200).cookie("token", token , options).json({
-            success : true,
-            user,
-            token
-        })
+//         res.status(200).cookie("token", token , options).json({
+//             success : true,
+//             user,
+//             token
+//         })
 
 
-    } catch (error) {
-        return res.status(500).json({
-            success : true,
-            message : error.message
-        })
+//     } catch (error) {
+//         return res.status(500).json({
+//             success : true,
+//             message : error.message
+//         })
+//     }
+// }
+
+exports.login = async(req,res) =>{
+try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email })
+      .select("+password");
+
+    //   console.log(user)
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User does not exist",
+      });
     }
+
+    const isMatch = await user.matchPassword(password);
+    console.log(isMatch)
+
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
+
+    const token = await user.generateToken();
+
+    const options = {
+      expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+
+    res.status(200).cookie("token", token, options).json({
+      success: true,
+      user,
+      token,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
+
 
 exports.logout = async(req,res) =>{
     try {
@@ -115,3 +163,18 @@ exports.logout = async(req,res) =>{
     }
 }
 
+exports.myProfile = async (req, res) => {
+    try {
+      const user = await User.findById(req.user._id)
+  
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };

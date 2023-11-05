@@ -4,25 +4,25 @@ const User = require("../models/User");
 exports.isAuthenticated = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-    console.log(req.cookies.token)
+
     if (!token) {
-      return res.status(404).json({
-        success: false,
-        message: "Please login to access the resources",
+      return res.status(401).json({
+        message: "Please login first",
       });
     }
 
-    const decode = jwt.verify(token, process.env.JWT_TOKEN);
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decode._id);
+    req.user = await User.findById(decoded._id);
+
     next();
   } catch (error) {
-    return res.status(500).json({
-      success: false,
+    res.status(500).json({
       message: error.message,
     });
   }
 };
+
 
 exports.authorizeRoles = (...role) => {
   return (req, res, next) => {

@@ -1,15 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Login.module.css";
 import { redirect, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContextProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/User";
-import { Link } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+
+  const  user  = useSelector((state)=> state.user);
+  console.log(user)
 
   // const loginHandler = (e) => {
   //   e.preventDefault();
@@ -68,8 +71,16 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser(email, password));
+
+    if(!user.isAuthenticated){
+      alert(`wrong credentials`)
+    }
     
   };
+
+
+
+  
 
   return (
     <>

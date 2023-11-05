@@ -8,7 +8,9 @@ import AlloemSpecs from './components/oem_specs/AlloemSpecs';
 import UpdateData from './components/updateData/UpdateData';
 import CreateData from './components/create/CreateData';
 import Header from './components/layout/Header';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from './Actions/User';
+// import lo
 
 function App() {
   webfont.load({
@@ -17,8 +19,10 @@ function App() {
     }
   });
 
+ 
+
   const {isAuthenticated} = useDispatch(state => state.user)
-  // console.log(isAuthenticated)
+  console.log(isAuthenticated)
   return (
     <div className="App">
       <Header/>
