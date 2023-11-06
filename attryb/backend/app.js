@@ -6,7 +6,7 @@ const oem_specs = require('./routes/product');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URI, methods : ["GET", "PUT" , "DELETE", "POST"], credentials : true }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

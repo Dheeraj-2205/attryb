@@ -12,6 +12,8 @@ const oemSpecs = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, "Price is required"],
+    min : [200000 , `Minimum price is 2lakh `],
+    max : [2000000 ,`Minimum price is 20lakh` ]
   },
   color: {
     type: String,
@@ -21,6 +23,8 @@ const oemSpecs = new mongoose.Schema({
   mileage: {
     type: Number,
     required: [true, "Mileage is required"],
+    min : [5 , `Minimum mileage is 10 `],
+    max : [100 ,`Minimum mileage is 100` ]
   },
 
   bhp: {

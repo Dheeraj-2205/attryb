@@ -1,92 +1,67 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./Login.module.css";
-import { redirect, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContextProvider";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../Actions/User";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
 
-  const  user  = useSelector((state)=> state.user);
-  console.log(user)
+  const navigate = useNavigate();
+  const { setCheckingError } = useContext(LoginContext);
 
-  // const loginHandler = (e) => {
-  //   e.preventDefault();
-  //   dispatch(loginUser(email, password));
-  // };
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState(false);
 
-  // const navigate = useNavigate();
-  // const { setCheckingError } = useContext(LoginContext);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  // const [state, setState] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-  // const [error, setError] = useState(false);
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setState({
-  //     ...state,
-  //     [name]: value,
-  //   });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const userData = {
-  //       email: state.email,
-  //       password: state.password,
-  //     };
-
-  //     const res = await fetch(`http://localhost:8000/api/v1/login`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(userData),
-  //     });
-  //     const data = await res.json();
-  //     localStorage.setItem("role", data.user.role);
-  //     localStorage.setItem("token", data.token);
-  //     if (data?.success === true) {
-  //       navigate("/oemspecs");
-  //       console.log("Retrieve Data go to next page");
-  //     } else {
-  //       setCheckingError(true);
-  //       navigate("/signup");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginUser(email, password));
-
-    if(!user.isAuthenticated){
-      alert(`wrong credentials`)
-    }
-    
+    setState({
+      ...state,
+      [name]: value,
+    });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const userData = {
+        email: state.email,
+        password: state.password,
+      };
 
-  
+      const res = await fetch(`http://localhost:8000/api/v1/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await res.json();
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("token", data.token);
+      if (data?.success === true) {
+        navigate("/oemspecs");
+        console.log("Retrieve Data go to next page");
+      } else {
+        setCheckingError(true);
+        navigate("/signup");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <div className={style.container}>
         <form onSubmit={handleSubmit}>
-          {/* <label>Email</label>
+          <label>Email</label>
           <input
             type="email"
             name="email"
@@ -102,25 +77,11 @@ const Login = () => {
             value={state.password}
             onChange={handleInputChange}
           />
-          <input type="submit" value={"Submit"} /> */}
-
-          <input
-            type="email"
-            placeholder="Enter Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Enter Your Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <button type="submit">Login</button>
+          <input type="submit" value={"Submit"} />
         </form>
+        <div>
+          <Link to="/">Signup</Link>
+        </div> 
       </div>
     </>
   );

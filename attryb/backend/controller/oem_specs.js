@@ -24,7 +24,7 @@ exports.getAllProducts = async(req,res)=>{
         const OemCount = await oemSpecs.countDocuments();
 
         const apiFeature = new ApiFeature(oemSpecs.find() , req.query)
-            .search();
+            .search().filter();
         
         let products = await apiFeature.query;
         return res.status(200).json({

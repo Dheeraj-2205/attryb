@@ -2,19 +2,24 @@ import React, { useContext, useEffect } from "react";
 import style from "./Signup.module.css";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch,useSelector } from "react-redux";
 // import { Link } from "react-router-dom";
 import { LoginContext } from "../context/LoginContextProvider";
+import { useNavigate, Link } from "react-router-dom";
+
 
 const Signup = () => {
   const { checkingError, setCheckingError } = useContext(LoginContext);
 
   const notify = () => toast("You Have To SignUp First");
+  const navigate =  useNavigate();
 
   const [state, setState] = useState({
     name: "",
     email: "",
     password: "",
   });
+  const [duplicate,setDuplicate] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,10 +49,12 @@ const Signup = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+
+      navigate("/login")
     } catch (error) {
       console.log(error);
     }
+    
   };
 
   useEffect(() => {
@@ -57,6 +64,7 @@ const Signup = () => {
       setCheckingError(false);
     }
   }, [checkingError]);
+
 
   return (
     <div className={style.container}>
@@ -89,6 +97,10 @@ const Signup = () => {
         />
         <input type="submit" />
       </form>
+
+      
+      <Link to={"/login"}>Login</Link>
+
     </div>
   );
 };

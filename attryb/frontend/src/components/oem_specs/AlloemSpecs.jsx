@@ -1,30 +1,51 @@
 import React from "react";
 import style from "./AlloemSpecs.module.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-const AlloemSpecs = () => {
+import { Link, useNavigate } from "react-router-dom";
+import toast, {Toaster} from "react-hot-toast";
+import Slider from "@mui/material/Slider"
+
+
+
+
+
+
+
+const AlloemSpecs = ({role}) => {
+
+
+
   const [productData, setProductData] = useState({});
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [filterValue, setFilterValue] = useState("");
   const retrieveToken = localStorage.getItem("token");
+  const [price,setPrice] = useState([200000,2000000]);
+
+
+
+  const priceHandler =(event ,newPrice) =>{
+    setPrice(newPrice);
+  }
+
+
+
+  const navigate = useNavigate();
+  const notify = () => toast.success('Logout SuccessFully');
+  
+  const retrieveData = localStorage.getItem("role");
 
   const getData = async () => {
     try {
-      if (search) {
+      let trimmedSearch = search.trim();
+      
         const res = await fetch(
-          `http://localhost:8000/api/v1/alloem?q=${search}`
+          `http://localhost:8000/api/v1/alloem?q=${trimmedSearch}&price[gte]=${price[0]}&price[lte]=${price[1]}`
         );
         const data = await res.json();
         setProductData(data);
         setLoader(false);
-      } else {
-        const res = await fetch(`http://localhost:8000/api/v1/alloem`);
-        const data = await res.json();
-        setProductData(data);
-        setLoader(false);
-      }
     } catch (error) {
       console.log(error);
       setLoader(false);
@@ -50,15 +71,9 @@ const AlloemSpecs = () => {
     });
   };
 
-  const  logoutUser = async() =>{
-    const res = await fetch(`http://localhost:8000/api/v1/logout`,{
-      method : "GET",
-      headers : {
-        "Content-Type" : "application/json"
-      }
-    });
-    const data = await res.json();
-    
+  const  logout = async() =>{
+    notify();
+    navigate("/login");
   }
 
 
@@ -66,10 +81,11 @@ const AlloemSpecs = () => {
     getData();
   });
 
-  const localData = localStorage.getItem("role");
+
 
   return (
     <>
+    <Toaster/>
       <div className={style.search}>
         <input
           type="text"
@@ -77,16 +93,26 @@ const AlloemSpecs = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        {localData === "admin" ? (
+        {role === "admin" ? (
           
             <Link to="/create"><button>Create</button></Link>
           
         ) : (
           ""
         )}
-        <Link to = "/login"><button onClick={logoutUser}>Logout</button></Link>
+        <Link to = "/login"><button onClick={logout}>Logout</button></Link>
         {/* <button onClick={handleSearch}>Search</button> */}
       </div>
+      <div className={style.filtervalue}>
+        <Slider
+          value = {price}
+          onChange={priceHandler}
+          valueLabelDisplay = "auto"
+          min = {200000}
+          max = {2000000}
+        />
+      </div>
+      
       <div>
         <input
           type="text"
@@ -112,14 +138,14 @@ const AlloemSpecs = () => {
                   <p>Mileage :- {ele.mileage}</p>
                   <p>Price :- {ele.price}</p>
                   <p>Year :- {ele.year}</p>
-                  {localData === "admin" ? (
+                  {retrieveData === "admin" ? (
                     <button className={style.adminUpdate}>
                       <Link to={`/update/${ele._id}`}>Edit</Link>
                     </button>
                   ) : (
                     ""
                   )}
-                  {localData === "admin" ? (
+                  {retrieveData === "admin" ? (
                     <button className={style.adminUpdate} onClick={deleteTheData.bind(null, ele._id)}>
                       Delete
                     </button>

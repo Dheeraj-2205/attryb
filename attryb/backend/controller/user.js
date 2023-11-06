@@ -22,7 +22,9 @@ exports.registerUser = async(req,res)=>{
     
         const options = {
             expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
-            httpOnly: true
+            httpOnly: true,
+            sameSite : process.env.NODE_ENV  === "Development" ? "lax" :"none",
+            secure : process.env.NODE_ENV  === "Development" ? false : true
         }
 
     
@@ -41,62 +43,7 @@ exports.registerUser = async(req,res)=>{
 
 }
 
-// exports.login = async(req,res)=>{
-//     try {
-//         const { email ,password } = req.body;    
 
-//         // if (!email || !password) {
-//         //     return res.status(400).json({
-//         //         success : false,
-//         //         message : "Please Enter Your Email"
-//         //     })
-//         // }
-
-//         const user =  await User.findOne({email}).select("+password")
-
-//         if(!user){
-//             return res.status(400).json({
-//                 success : false,
-//                 message : "User does not exists"
-//             })
-//         }
-
-//         const isMatch = await user.matchPassword;
-//         console.log( "64" + isMatch );
-
-//         if (!isMatch) {
-//             return res.status(400).json({
-//               success: false,
-//               message: "Incorrect password",
-//             });
-//         }
-
-//         const token = await user.generateToken();
-
-//         console.log(token)
-
-//         // localStorage.setItem("token", token);
-    
-//         const options = {
-//             expires : new Date(Date.now() + 2 * 24 *60 *60 *1000),
-//             httpOnly: true,
-//             sameSite: 'strict'
-//         }
-    
-//         res.status(200).cookie("token", token , options).json({
-//             success : true,
-//             user,
-//             token
-//         })
-
-
-//     } catch (error) {
-//         return res.status(500).json({
-//             success : true,
-//             message : error.message
-//         })
-//     }
-// }
 
 exports.login = async(req,res) =>{
 try {
@@ -115,7 +62,6 @@ try {
     }
 
     const isMatch = await user.matchPassword(password);
-    console.log(isMatch)
 
     if (!isMatch) {
       return res.status(400).json({
@@ -129,6 +75,8 @@ try {
     const options = {
       expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
       httpOnly: true,
+      sameSite : process.env.NODE_ENV  === "Development" ? "lax" :"none",
+      secure : process.env.NODE_ENV  === "Development" ? false : true
     };
 
     res.status(200).cookie("token", token, options).json({
@@ -150,7 +98,8 @@ exports.logout = async(req,res) =>{
     try {
         res.cookie("token", null,{
             expires : new Date(Date.now()),
-            httpOnly : true
+            sameSite : process.env.NODE_ENV  === "Development" ? "lax" :"none",
+            secure : process.env.NODE_ENV  === "Development" ? false : true
         }).json({
             success : true,
             message : "Logout Successfully"
@@ -165,14 +114,17 @@ exports.logout = async(req,res) =>{
 
 exports.myProfile = async (req, res) => {
     try {
-      const user = await User.findById(req.user._id)
+      const user = await User.findById(req.user._id);
+      console.log(user)
   
       res.status(200).json({
         success: true,
         user,
       });
     } catch (error) {
+        console.log("object")
       res.status(500).json({
+        
         success: false,
         message: error.message,
       });
