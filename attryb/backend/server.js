@@ -1,6 +1,7 @@
 const app = require('./app');
 const connectDb = require('./config/database');
 
+
 process.on("uncaughtException", (err)=>{
     console.log(err.message);
     console.log(`Shutting down due to uncaught exception`);
