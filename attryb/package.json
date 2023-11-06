@@ -11,6 +11,9 @@
   "name": "attryb",
   "version": "1.0.0",
   "main": "backend/server.js",
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon server.js"
