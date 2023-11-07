@@ -40,7 +40,7 @@ const Signup = () => {
         password: state.password,
       };
 
-      const res = await fetch(`http://localhost:8000/api/v1/register`, {
+      const res = await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

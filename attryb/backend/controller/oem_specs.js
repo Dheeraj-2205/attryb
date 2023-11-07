@@ -92,9 +92,8 @@ exports.updateProducts = async(req,res)=>{
 
 exports.deleteProducts = async(req,res) =>{
     try {
-        console.log("object")
         const product = await oemSpecs.findByIdAndDelete(req.params.id);
-        console.log(product)
+        
         if (!product) {
           return res.status(400).json({
             success : false,
@@ -102,10 +101,6 @@ exports.deleteProducts = async(req,res) =>{
           })
         }
       
-        
-        // for (let i = 0; i < product.images.length; i++) {
-        //   await cloudinary.v2.uploader.destroy(product.images[i].public_id);
-        // }
       
       
         res.status(200).json({

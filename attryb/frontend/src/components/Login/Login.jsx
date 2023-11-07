@@ -35,7 +35,7 @@ const Login = () => {
         password: state.password,
       };
 
-      const res = await fetch(`http://localhost:8000/api/v1/login`, {
+      const res = await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,6 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       if (data?.success === true) {
         navigate("/oemspecs");
-        console.log("Retrieve Data go to next page");
       } else {
         setCheckingError(true);
         navigate("/signup");

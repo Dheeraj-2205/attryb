@@ -39,9 +39,8 @@ const CreateData = () => {
         price: state.price,
         maxSpeed: state.maxSpeed,
       };
-      console.log(newData)
 
-      const res = await fetch(`http://localhost:8000/api/v1/newoem`, {
+      const res = await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/newoem`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

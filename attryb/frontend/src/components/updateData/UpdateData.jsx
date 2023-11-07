@@ -41,7 +41,7 @@ const UpdateData = () => {
         maxSpeed: state.maxSpeed,
       };
 
-      const res = await fetch(`http://localhost:8000/api/v1/admin/${id}`, {
+      const res = await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/admin/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
