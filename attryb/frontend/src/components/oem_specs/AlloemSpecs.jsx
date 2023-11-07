@@ -41,7 +41,7 @@ const AlloemSpecs = ({role}) => {
       let trimmedSearch = search.trim();
       
         const res = await fetch(
-          `https://attryb-project-oj9n.onrender.com/api/v1/alloem?q=${trimmedSearch}&price[gte]=${price[0]}&price[lte]=${price[1]}`
+          `https://attryb-project-36pd.onrender.com/api/v1/alloem?q=${trimmedSearch}&price[gte]=${price[0]}&price[lte]=${price[1]}`
         );
         const data = await res.json();
         setProductData(data);
@@ -62,7 +62,7 @@ const AlloemSpecs = ({role}) => {
 
   const deleteTheData = async (id) => {
     console.log(id);
-    await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/admin/${id}`, {
+    await fetch(`https://attryb-project-36pd.onrender.com/api/v1/admin/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${retrieveToken}`,

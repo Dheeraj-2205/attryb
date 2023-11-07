@@ -35,7 +35,7 @@ const Login = () => {
         password: state.password,
       };
 
-      const res = await fetch(`https://attryb-project-oj9n.onrender.com/api/v1/login`, {
+      const res = await fetch(`https://attryb-project-36pd.onrender.com/api/v1/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
