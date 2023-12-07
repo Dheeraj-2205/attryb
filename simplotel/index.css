@@ -35,16 +35,17 @@ body {
 #call{
   border-radius: 50%;
   border: 2px solid black;
+  color: black;
 }
 .container2 {
   display: flex;
   flex-wrap: wrap;
   background-image: url("./image/img1.jpg");
   background-repeat: no-repeat;
-  background-position: 0 -13vh;
+  background-position: 0 -10vh;
   background-size: cover;
   width: 100vw;
-  height: 90vh;
+  height: 95vh;
 }
 .container2 > div {
   position: absolute;
@@ -80,9 +81,9 @@ body {
   margin-top: 5%;
   width: 100vw;
   /* height: 55vh; */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  justify-items:center;
 }
 .container4 > .box {
   width: 20vw;
@@ -99,7 +100,7 @@ body {
 .container4 > .box img {
   width: 100%;
   height: 70%;
-  border-top-right-radius: 20%;
+  border-top-right-radius: 25%;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
@@ -143,16 +144,21 @@ body {
   .container > .portion1 {
     width: 0;
   }
-  .navbar2 {
+  .navbar{
+    width: 80%;
+  }
+  .navbar > p{
+    font-size: 2.2vw;
   }
 
   .container4 {
-    /* display: grid;
-    grid-template-columns: repeat(2, 1fr); */
-    /* border: 1px solid blue; */
-
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+   
+  }
+  .box{
+    width: 80% !important;
+    margin-top: 5%;
   }
 }
 
@@ -185,9 +191,18 @@ body {
 }
 
 @media screen and (max-width: 415px) {
+  .container > .navbar{
+    width: 150%;
+  }
+  .navbar > p{
+    font-family: 200;
+    font-size: 2.5vw;
+  }
+  .container3 > h1{
+    font-size: 7vw;
+  }
   .container2 > div {
     width: 80vw;
-    height: 55vh;
     margin-top: -15%;
   }
   .container2 > div > p:first-child {
@@ -199,7 +214,7 @@ body {
   }
 
   .container4 {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
   }
 }
